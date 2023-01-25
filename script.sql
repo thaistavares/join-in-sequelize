@@ -1,43 +1,23 @@
 CREATE DATABASE IF NOT EXISTS joinsequelize;
 USE joinsequelize;
-CREATE TABLE IF NOT EXISTS invoice (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
-    createdAt DATETIME,
-    updatedAt DATETIME
+    firstName VARCHAR(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-CREATE TABLE IF NOT EXISTS titulos (
+CREATE TABLE IF NOT EXISTS invoices (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    numero VARCHAR(255),
-    createdAt DATETIME,
-    updatedAt DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
-CREATE TABLE IF NOT EXISTS usuario_titulo (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuarioId INT,
-    tituloId INT,
-    createdAt DATETIME,
-    updatedAt DATETIME,
-    FOREIGN KEY (usuarioId) REFERENCES usuarios(id),
-    FOREIGN KEY (tituloId) REFERENCES titulos(id)
+    amount INT,
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES user(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
-USE siscamtest;
+USE joinsequelize;
 
-INSERT INTO usuarios (nome, createdAt, updatedAt) VALUES ('Fulano', NOW(), NOW());
-INSERT INTO usuarios (nome, createdAt, updatedAt) VALUES ('Ciclano', NOW(), NOW());
-INSERT INTO usuarios (nome, createdAt, updatedAt) VALUES ('Beltrano', NOW(), NOW());
+INSERT INTO users (firstName, createdAt, updatedAt) VALUES ('Nathan', NOW(), NOW());
+INSERT INTO users (firstName, createdAt, updatedAt) VALUES ('John', NOW(), NOW());
 
-INSERT INTO titulos (numero, createdAt, updatedAt) VALUES ('111', NOW(), NOW());
-INSERT INTO titulos (numero, createdAt, updatedAt) VALUES ('222', NOW(), NOW());
-INSERT INTO titulos (numero, createdAt, updatedAt) VALUES ('333', NOW(), NOW());
-
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('1', '1', NOW(), NOW());
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('1', '2', NOW(), NOW());
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('1', '3', NOW(), NOW());
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('2', '1', NOW(), NOW());
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('2', '3', NOW(), NOW());
-INSERT INTO usuario_titulo (usuarioId, tituloId, createdAt, updatedAt) VALUES ('3', '2', NOW(), NOW());
+INSERT INTO invoices (amount, userId, createdAt, updatedAt) VALUES ('300', 1, NOW(), NOW());
+INSERT INTO invoices (amount, userId, createdAt, updatedAt) VALUES ('100', 2, NOW(), NOW());
 
 SELECT DISTINCT A.numero FROM titulos A INNER JOIN usuario_titulo B ON (A.id = B.tituloId) INNER JOIN usuarios C ON (C.id = B.usuarioId) WHERE C.id = '1';
 SELECT DISTINCT A.numero FROM titulos A INNER JOIN usuario_titulo B ON (A.id = B.tituloId) INNER JOIN usuarios C ON (C.id = B.usuarioId) WHERE C.id = '2';
